@@ -1,0 +1,18 @@
+name: Setup WireGuard
+description: It sets up WireGuard.
+
+inputs:
+  WG_CONFIG:
+    required: true
+    description: Configuration
+
+runs:
+  using: composite
+  steps:
+    - run: |
+        sudo apt install resolvconf
+        sudo apt install wireguard
+        echo "${{ inputs.WG_CONFIG }}" > wg0.conf
+        sudo chmod 600 wg0.conf
+        sudo wg-quick up ./wg0.conf
+      shell: bash
